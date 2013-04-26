@@ -5,11 +5,13 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , stat = require('./stat')
+
 
 var app = express();
+
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -27,8 +29,26 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+
 app.get('/', routes.index);
 
-http.createServer(app).listen(app.get('port'), function(){
+server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Listening on port ' + app.get('port'));
 });
+
+io = require('socket.io').listen(server);
+
+console.log(stat)
+
+stats = new stat.redis_info([
+	{"host": "localhost", "port": 6379}
+], io)
+
+
+stats.trackStats()
+
+
+
+
+
+
