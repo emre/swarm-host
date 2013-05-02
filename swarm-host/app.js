@@ -8,6 +8,7 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , stat = require('./stat')
+  , config = require('./config')
 
 
 var app = express();
@@ -38,15 +39,10 @@ server = http.createServer(app).listen(app.get('port'), function(){
 
 io = require('socket.io').listen(server);
 
-console.log(stat)
-
-stats = new stat.redis_info([
-	{"host": "localhost", "port": 6379}
-], io)
-
-
-stats.trackStats()
-
+for (var index in config.REDIS_SERVERS) {
+	box_stat = new stat.redis_info(config.REDIS_SERVERS[index], io)
+	box_stat.trackStats()
+}
 
 
 

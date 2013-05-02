@@ -2,36 +2,53 @@
 var redis = require("redis")
 
 
-function RedisInfo(servers, io) {
-    this.servers = servers;
-    this.stats = [];
+function RedisInfo(server, io) {
+    this.server = server;
     this.io = io;
+    this.getConnection = function(callback) {
+    	connection = redis.createClient(this.server.port,this.server.host,
+    		{max_attempts: 1, connect_timeout:2}
+    	);
+    	callback(connection, this.server.host + ":" + this.server.port);
+    } 
 }
-
 
 RedisInfo.prototype.trackStats = function () {
-
 	var self = this;
 	setInterval(function() {
-		for (var index in self.servers) {
-			self.getStatForServer(self.servers[index]);
-		}
-	}, 3000);
+		self.pushStatForServer(self.server);
+	}, 5000);
 
 }
 
-RedisInfo.prototype.getStatForServer = function(server) {
-		
+
+RedisInfo.prototype.pushStatForServer = function(server) {
+	
 	var self = this;
 
-	redis_connection = redis.createClient(server.port, server.host);
+	this.getConnection(function(redis_connection, server_key) {
 
-	redis_connection.info(function (error, response) {
-		io.sockets.emit('stats', { server_data: redis_connection.server_info })
+		redis_connection.on("error", function(error) {
+			// catch no-connectivity errors
+		});
+
+		redis_connection.info(function (error, response) {
+			hash = {};
+			redis_connection.server_info["status"] = 'up'
+			hash[server_key] = redis_connection.server_info
+
+			if(error == null) {
+				self.io.sockets.emit('stats', hash);
+			}
+			else {
+				hash = {};
+				hash[server_key] = {'status': 'down'}
+				self.io.sockets.emit('stats', hash)
+			}
+			redis_connection.end();
+		});
 	});
 
-
-	redis_connection.quit()
 }
 
 exports.redis_info = RedisInfo
