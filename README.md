@@ -29,5 +29,9 @@ REDIS_SERVERS = [
 running
 ==============
 ``` 
-node app.js
+$ node app.js
+   info  - socket.io started
+Listening on port 3000
+
+
 ``` 
