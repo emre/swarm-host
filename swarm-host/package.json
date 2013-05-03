@@ -10,6 +10,8 @@
     "jade": "*",
     "redis": "*",
     "socket.io": "*",
-    "swig": "*"
+    "swig": "*",
+    "uglify-js": "*",
+    "active-x-obfuscator": "0.0.1" 
   }
 }
