@@ -32,6 +32,4 @@ running
 $ node app.js
    info  - socket.io started
 Listening on port 3000
-
-
 ``` 
