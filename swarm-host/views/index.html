@@ -44,7 +44,8 @@
         <div class="container">
 
             <div class="stat" id="{{stat.server_key}}">
-            <h1> {{ stat.server_key }} </h1>
+            <h1> {{ stat.server_key }} </h1> 
+            (<span class="role">master</span>)
                 <div class="info_line">
                     <span class="info" style="width:50px !important">
                         system status
@@ -53,13 +54,12 @@
                    {{ stat.status }}
                     </span>
                 </div>
-                {% if stat.status == 'up' %}
-                <div id="screen_strategy">
+                <div class="screen_strategy">
                     <div class="info_line">
                         <span class="info">
                             connected clients
                         </span>
-                        <span class="connected_clients" id="connected_clients">
+                        <span class="connected_clients up" id="connected_clients">
                             {{stat.connected_clients}}
                         </span>
                     </div>
@@ -69,24 +69,23 @@
                             memory usage
                         </span>
 
-                        <span class="{{ stat.status }}" id="{{ stat.addr }}_used_memory_human">
+                        <span class="{{ stat.status }} up used_memory_human">
                             {{stat.used_memory_human}}
                         </span>
                     </div>
                     <h2> details </h2>
                     <div id="detail">
                         <div class="detail_line">uptime in days: <span class="line_span uptime_in_days" id="{{ stat.addr }}_uptime_in_days">{{ stat.uptime_in_days }}</span></div>
-                        <div class="detail_line">uptime in seconds: <span class="line_span uptime_in_seconds">{{ stat.uptime_in_seconds}}</span></div>
-                        <div class="detail_line">bg save in progress: <span class="line_span bgsave_in_progress">{{ stat.bgsave_in_progress }}</span></div>
+                        <div class="detail_line">bg save in progress: <span class="line_span rdb_bgsave_in_progress">{{ stat.bgsave_in_progress }}</span></div>
                         <div class="detail_line">multiplexing api: <span class="line_span multiplexing_api">{{ stat.multiplexing_api }}</span></div>
                         <div class="detail_line">number of connected slaves: <span class="line_span connected_slaves">{{ stat.connected_slaves }}</span></div>
-                        <div class="detail_line">number of blocked clients: <span class="line_span blocked_clients">{{stat.blocked_clients}}</span></div>
                         <div class="detail_line">total connections received: <span class="line_span total_connections_received">{{stat.total_connections_received}}</span></div>
                         <div class="detail_line">redis version: <span class="line_span redis_version">{{stat.redis_version}}</span></div>
                         <div class="detail_line">process id: <span class="line_span process_id">#{{stat.process_id}}</span></div>
+                        <div class="detail_line">os: <span class="line_span os">{{stat.process_id}}</span></div>
+
                     </div>
                 </div>
-                {% endif %}
 
             </div>
         </div>
