@@ -9,7 +9,7 @@ installation
 ==========
 ```
 git clone https://github.com/emre/swarm-host.git
-cd swarm-host
+cd swarm-host/swarm-host
 npm install
 ```
 
