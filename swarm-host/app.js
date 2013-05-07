@@ -11,11 +11,10 @@ var express = require('express')
   , config = require('./config')
   , swig = require('./swigger').swig
 
-
 var app = express();
+var enable_debug = true;
 
- require('swig').init({ cache: true, allowErrors: false, filters: {} })
-
+require('swig').init({ cache: true, allowErrors: false, filters: {} })
 
 app.set('host', config.APP_HOST);
 app.set('port', config.APP_PORT);
@@ -32,27 +31,22 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-
 app.get('/', routes.index);
 
 server = http.createServer(app).listen(app.get('port'), function(){
-  console.log('Listening on port ' + app.get('port'));
+  if (enable_debug) {
+    console.log('Listening on port ' + app.get('port'));
+  }
 });
 
-io = require('socket.io').listen(server);
+io = require('socket.io').listen(server, {log: enable_debug});
 
 for (var index in config.REDIS_SERVERS) {
 	box_stat = new stat.redis_info(config.REDIS_SERVERS[index], io)
 	box_stat.trackStats()
 }
-
-
-
-
-
