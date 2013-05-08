@@ -7,44 +7,14 @@
         <link rel="stylesheet" href="stylesheets/style.css" type="text/css" media="screen, projection" />
         <script type="text/javascript" src="javascripts/jquery.min.js"></script>
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-        <script type="text/javascript" src="/javascripts/socket.js"></script>        
-        <script type="text/javascript">
-        function update() {
-            $.ajax({
-              url: "/ajax",
-              dataType: "json",
-              success: function(data){
-                $.each(data, function(id, values) {
-                    $.each(values, function(key, value) {
-                        if(key.match(/strategy$/)) {
-                            if(value == "hidden") {
-                                $('#' + key).fadeOut('slow');
-                            }
-                            else {
-                                $('#' + key).fadeIn('slow');
-                            }
-                        }
-                        else {
-                            $('#' + key).html(value);
-                            if(key.match(/_status$/)) {
-                                $('#' + key).removeClass().addClass(value);
-                            }
-                        }
-                    });
-                });
-
-              }
-            });
-        }
-
-        </script>
+        <script type="text/javascript" src="/javascripts/socket.js"></script>
     </head>
     <body>
     {% for stat in stats %}
         <div class="container">
 
             <div class="stat" id="{{stat.server_key}}">
-            <h1> {{ stat.server_key }} </h1> 
+            <h1> {{ stat.server_key }} </h1>
             (<span class="role">master</span>)
                 <div class="info_line">
                     <span class="info" style="width:50px !important">
