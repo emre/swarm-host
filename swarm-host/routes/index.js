@@ -1,4 +1,3 @@
-
 /*
  * GET home page.
  */
@@ -6,9 +5,8 @@
 var redis = require("redis");
 var config = require('../config');
 
-
 var index = function(req, res){
-	
+
 	servers = [];
 	template_data = {};
 
