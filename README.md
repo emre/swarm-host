@@ -24,8 +24,6 @@ REDIS_SERVERS = [
 ];
 ```
 
-* edit /public/javascripts/socket.js if you use custom host & port.
-
 running
 ==============
 ``` 
